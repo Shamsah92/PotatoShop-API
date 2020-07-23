@@ -2,7 +2,7 @@ const jetskis = [
   {
     id: 1,
     name: "new Jet Ski",
-    price: 2000,
+    price: 5000000,
     description: "fastest Jet Ski",
     image: "https://p1.pxfuel.com/preview/193/167/703/jet-ski-voyage-busan.jpg",
   },

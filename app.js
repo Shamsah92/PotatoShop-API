@@ -1,29 +1,30 @@
 const express = require("express");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+
+const jetskiRoutes = require("./routes/jetskis");
 
 const app = express();
 
-let jetskis = require("./jetskis");
+// const db = require("./db/db");
 
-const cors = require("cors");
+//
 
 app.use(cors());
+app.use(bodyParser.json());
 
-app.get("/jetskis", (request, response) => {
-  response.json(jetskis);
-});
+app.use("/jetskis", jetskiRoutes);
 
-app.delete("/jetskis/jetskiId", (req, res) => {
-  const { jetskiId } = req.params;
-  const foundJetski = jetskis.find((jetski) => jetski.id === +jetskiId);
-
-  if (foundCookie) {
-    jetskis = jetskis.filter((_jetski) => _jetski !== foundJetski);
-    res.status(204).end();
-  } else {
-    res.status(404).json({ message: "cannot find jet ski" });
+const run = async () => {
+  try {
+    await db.authenticate();
+    console.log("Connection to the database successful!");
+  } catch (error) {
+    console.error("Error connecting to the database: ", error);
   }
-});
 
-app.listen(8000, () => {
-  console.log("The application is running on localhost:8000");
-});
+  app.listen(8000, () => {
+    console.log("The application is running on localhost:8000");
+  });
+};
+run();
