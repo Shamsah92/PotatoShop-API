@@ -9,7 +9,7 @@ exports.jetskiList = async (req, res, next) => {
     const _jetskis = await Jetski.findAll({
       attributes: { exclude: ["createdAt", "updatedAt"] },
     });
-    response.json(_jetskis);
+    res.json(_jetskis);
   } catch (error) {
     next(error);
   }
@@ -17,7 +17,11 @@ exports.jetskiList = async (req, res, next) => {
 
 exports.jetskiCreate = async (req, res, next) => {
   try {
-    const newJetski = await Jetski.create(req.body);
+    if (req.file) {
+      req.body.image = `${req.protocol}://${req.get("host")}/media/${
+        req.file.filename
+      }`;
+    }
     res.status(201).json(newJetski);
   } catch (error) {
     next(error);
@@ -31,6 +35,11 @@ exports.jetskiCreate = async (req, res, next) => {
 
 exports.jetskiUpdate = async (req, res, next) => {
   try {
+    if (req.file) {
+      req.body.image = `${req.protocol}://${req.get("host")}/media/${
+        req.file.filename
+      }`;
+    }
     await req.jetski.update(req.body);
     res.status(204).end();
   } catch (err) {
@@ -88,7 +97,7 @@ exports.jetskiDelete = async (req, res, next) => {
 
 exports.fetchJetski = async (jetskiId, next) => {
   try {
-    const jetski = await jetski.findByPk(jetskiId);
+    const jetski = await Jetski.findByPk(jetskiId);
     return jetski;
   } catch (error) {
     next(error);

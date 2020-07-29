@@ -6,6 +6,8 @@ const jetskiRoutes = require("./routes/jetskis");
 
 const app = express();
 
+const path = require("path");
+
 const db = require("./db");
 const { Jetski } = require("./db/models");
 const jetskis = require("./jetskis");
@@ -19,14 +21,17 @@ app.use(bodyParser.json());
 
 router.get("/", jetskiList);
 
-app.use((req, res, next) => {
-  console.log("another middleware method");
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log("another middleware method");
+//   next();
+// });
 
-router.post("/", jetskiCreate);
+console.log("hii", path.join(__dirname, "media"));
+
+// router.post("/", jetskiCreate);
 
 app.use("/jetskis", jetskiRoutes);
+app.use("/media", express.static(path.join(__dirname, "media")));
 
 app.use((req, res, next) => {
   // res.status(404).json({ message: "Path not found" });
