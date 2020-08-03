@@ -1,37 +1,23 @@
 const express = require("express");
 
-const multer = require("multer");
+const upload = require("../middleware/multer");
 
 // let jetskis = require("../jetskis");
 
 // const slugify = require("slugify");
 
 const {
-  jetskiCreate,
   jetskiList,
   jetskiUpdate,
   jetskiDelete,
   fetchJetski,
 } = require("../controller/jetskiController");
 
-const storage = multer.diskStorage({
-  destination: "./media",
-  filename: (req, file, cb) => {
-    cb(null, `${+new Date()}${file.originalname}`);
-  },
-});
-
-const upload = multer({
-  storage,
-});
-
 const router = express.Router();
 
 router.get("/", jetskiList);
 
 router.delete("/:jetskiId", jetskiDelete);
-
-router.post("/", upload.single("image"), jetskiCreate);
 
 router.put("/:jetskiId", upload.single("image"), jetskiUpdate);
 

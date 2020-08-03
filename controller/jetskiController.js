@@ -2,35 +2,22 @@ let jetskis = require("../jetskis");
 
 const slugify = require("slugify");
 
-const { Jetski } = require("../db/models");
+const { Jetski, Factory } = require("../db/models");
 
 exports.jetskiList = async (req, res, next) => {
   try {
     const _jetskis = await Jetski.findAll({
-      attributes: { exclude: ["createdAt", "updatedAt"] },
+      attributes: { exclude: ["factoryId", "createdAt", "updatedAt"] },
+      include: {
+        model: Factory,
+        as: "factory",
+        attributes: ["name"],
+      },
     });
     res.json(_jetskis);
   } catch (error) {
     next(error);
   }
-};
-
-exports.jetskiCreate = async (req, res, next) => {
-  try {
-    if (req.file) {
-      req.body.image = `${req.protocol}://${req.get("host")}/media/${
-        req.file.filename
-      }`;
-    }
-    res.status(201).json(newJetski);
-  } catch (error) {
-    next(error);
-    // res.status(500).json({ message: error.message });
-  }
-  // const id = jetskis[jetskis.length - 1].id + 1;
-  // const slug = slugify(req.body.name, { lower: true });
-  // const newJetski = { id, slug, ...req.body };
-  // jetskis.push(newJetski);
 };
 
 exports.jetskiUpdate = async (req, res, next) => {

@@ -4,6 +4,8 @@ const bodyParser = require("body-parser");
 
 const jetskiRoutes = require("./routes/jetskis");
 
+const factoryRoutes = require("./routes/factories");
+
 const app = express();
 
 const path = require("path");
@@ -26,9 +28,10 @@ router.get("/", jetskiList);
 //   next();
 // });
 
-console.log("hii", path.join(__dirname, "media"));
+// console.log("hii", path.join(__dirname, "media"));
 
 // router.post("/", jetskiCreate);
+app.use("/factories", factoryRoutes);
 
 app.use("/jetskis", jetskiRoutes);
 app.use("/media", express.static(path.join(__dirname, "media")));
