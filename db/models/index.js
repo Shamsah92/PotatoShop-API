@@ -8,6 +8,6 @@ Factory.hasMany(Jetski, {
   allowNull: false,
 });
 
-Jetski.belongsTo(Factory, { as: "factory" });
+Jetski.belongsTo(Factory, { as: "factory", allowNull: false });
 
 module.exports = { Jetski, Factory };

@@ -6,15 +6,13 @@ const { Factory, Jetski } = require("../db/models");
 
 exports.factoryList = async (req, res, next) => {
   try {
-    const factories = await Factory.findAll({
-      attributes: ["id", "name"],
-      include: [
-        {
-          model: Jetski,
-          as: "jetskis",
-          attributes: { exclude: ["createdAt", "updatedAt"] },
-        },
-      ],
+    const factoies = await Factory.findAll({
+      attributes: { exclude: ["createdAt", "updatedAt"] },
+      include: {
+        model: Jetski,
+        as: "jetskis",
+        attributes: ["id"],
+      },
     });
     res.json(factories);
   } catch (error) {
