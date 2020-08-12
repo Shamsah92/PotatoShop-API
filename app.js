@@ -18,10 +18,17 @@ const jetskis = require("./jetskis");
 const router = require("./routes/jetskis");
 const { jetskiCreate, jetskiList } = require("./controller/jetskiController");
 
+const passport = require("passport");
+
+const { localStrategy } = require("./middleware/passport");
+
 //
 
 app.use(cors());
 app.use(bodyParser.json());
+// Passport Setup
+app.use(passport.initialize());
+passport.use(localStrategy);
 
 router.get("/", jetskiList);
 
@@ -33,12 +40,16 @@ router.get("/", jetskiList);
 // console.log("hii", path.join(__dirname, "media"));
 
 // router.post("/", jetskiCreate);
-app.use("/factories", factoryRoutes);
 
+//Routes
+app.use("/factories", factoryRoutes);
 app.use("/jetskis", jetskiRoutes);
 app.use("/media", express.static(path.join(__dirname, "media")));
-
 app.use(userRoutes);
+
+// Passport Setup
+app.use(passport.initialize());
+passport.use(localStrategy);
 
 app.use((req, res, next) => {
   // res.status(404).json({ message: "Path not found" });
