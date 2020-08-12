@@ -11,7 +11,7 @@ const {
   factoryList,
   factoryUpdate,
   factoryDelete,
-  fetchfactory,
+  fetchFactory,
   jetskiCreate,
 } = require("../controller/factoryController");
 

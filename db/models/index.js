@@ -2,6 +2,8 @@ const Jetski = require("./Jetski");
 
 const Factory = require("./Factory");
 
+const User = require("./User");
+
 Factory.hasMany(Jetski, {
   as: "jetskis",
   foreignKey: "factoryId",
@@ -10,4 +12,4 @@ Factory.hasMany(Jetski, {
 
 Jetski.belongsTo(Factory, { as: "factory", allowNull: false });
 
-module.exports = { Jetski, Factory };
+module.exports = { Jetski, Factory, User };

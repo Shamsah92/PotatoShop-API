@@ -6,7 +6,7 @@ const { Factory, Jetski } = require("../db/models");
 
 exports.factoryList = async (req, res, next) => {
   try {
-    const factoies = await Factory.findAll({
+    const factories = await Factory.findAll({
       attributes: { exclude: ["createdAt", "updatedAt"] },
       include: {
         model: Jetski,
@@ -27,8 +27,7 @@ exports.factoryCreate = async (req, res, next) => {
         req.file.filename
       }`;
     }
-    req.body.factoryId = req.factory.id;
-    const newJetski = await Jetski.create(req.body);
+    const newFactory = await Factory.create(req.body);
     res.status(201).json(newFactory);
   } catch (error) {
     next(error);
@@ -118,6 +117,8 @@ exports.jetskiCreate = async (req, res, next) => {
         req.file.filename
       }`;
     }
+    req.body.factoryId = req.factory.id;
+    const newJetski = await Jetski.create(req.body);
     res.status(201).json(newJetski);
   } catch (error) {
     next(error);
