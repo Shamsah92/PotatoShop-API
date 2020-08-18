@@ -20,7 +20,7 @@ const { jetskiCreate, jetskiList } = require("./controller/jetskiController");
 
 const passport = require("passport");
 
-const { localStrategy } = require("./middleware/passport");
+const { localStrategy, jwtStrategy } = require("./middleware/passport");
 
 //
 
@@ -29,7 +29,7 @@ app.use(bodyParser.json());
 // Passport Setup
 app.use(passport.initialize());
 passport.use(localStrategy);
-
+passport.use(jwtStrategy);
 router.get("/", jetskiList);
 
 // app.use((req, res, next) => {

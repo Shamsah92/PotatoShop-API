@@ -14,6 +14,7 @@ const {
   fetchFactory,
   jetskiCreate,
 } = require("../controller/factoryController");
+const passport = require("passport");
 
 const router = express.Router();
 
@@ -21,7 +22,12 @@ router.get("/", factoryList);
 
 router.delete("/:factoryId", factoryDelete);
 
-router.post("/", upload.single("image"), factoryCreate);
+router.post(
+  "/",
+  passport.authenticate("jwt", { session: false }),
+  upload.single("image"),
+  factoryCreate
+);
 
 router.put("/:factoryId", upload.single("image"), factoryUpdate);
 
